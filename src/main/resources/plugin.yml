@@ -1,0 +1,7 @@
+name: Bouncy
+version: '${project.version}'
+main: me.koutachan.bouncy.Bouncy
+api-version: 1.21
+author: KoutaChan12
+softdepend:
+  - PacketEvents
