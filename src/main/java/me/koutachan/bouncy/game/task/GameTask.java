@@ -38,6 +38,13 @@ public abstract class GameTask extends BukkitRunnable {
         }
     }
 
+    public synchronized boolean safeCancel() {
+        boolean success = isDefinedTask();
+        if (success)
+            cancel();
+        return success;
+    }
+
     @Override
     public synchronized void cancel() throws IllegalStateException {
         super.cancel();
