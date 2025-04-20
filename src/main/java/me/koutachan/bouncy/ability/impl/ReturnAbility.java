@@ -18,6 +18,7 @@ public class ReturnAbility extends Ability implements AbilityDrop {
     private final static Particle.DustTransition RETURN_DUST = new Particle.DustTransition(Color.fromRGB(0, 255, 0), Color.fromRGB(0, 255, 0), 1F);
 
     private Location returnPos;
+    private int tick;
 
     public final static int ID = 28;
 
@@ -36,9 +37,8 @@ public class ReturnAbility extends Ability implements AbilityDrop {
             gamePlayer.getPlayer().teleport(returnPos);
         } else if (gamePlayer.useAbility(getCt())) {
             returnPos = gamePlayer.getLocation();
+            tick = 0;
             new BukkitRunnable() {
-                private int tick;
-
                 @Override
                 public void run() {
                     if (++tick > MAX_RETURN_TIME) {
@@ -60,7 +60,11 @@ public class ReturnAbility extends Ability implements AbilityDrop {
 
     @Override
     public String getActionBar() {
-        return "能力:帰還 " + FormatUtils.formatTick(gamePlayer.getAbilityCt()) + "秒（" + FormatUtils.formatTick(getCt()) + "秒で使用可能）";
+        if (returnPos != null) {
+            return "能力:帰還 " + FormatUtils.formatTick(gamePlayer.getAbilityCt()) + "秒（" + FormatUtils.formatTick(MAX_RETURN_TIME - tick) + "秒間テレポート可能）";
+        } else {
+            return "能力:帰還 " + FormatUtils.formatTick(gamePlayer.getAbilityCt()) + "秒（" + FormatUtils.formatTick(getCt()) + "秒で使用可能）";
+        }
     }
 
     @Override
