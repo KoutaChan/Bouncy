@@ -1,8 +1,8 @@
-package me.koutachan.bouncy.ability.gamble.gui;
+package me.koutachan.bouncy.ability.impl.gamble.gui;
 
 import me.koutachan.bouncy.Bouncy;
-import me.koutachan.bouncy.ability.gamble.GambleBuff;
-import me.koutachan.bouncy.ability.gamble.GambleDeBuff;
+import me.koutachan.bouncy.ability.impl.gamble.GambleBuff;
+import me.koutachan.bouncy.ability.impl.gamble.GambleDeBuff;
 import me.koutachan.bouncy.utils.ItemCreator;
 import me.koutachan.bouncy.utils.gui.GuiBase;
 import me.koutachan.bouncy.utils.gui.button.impl.ItemButton;

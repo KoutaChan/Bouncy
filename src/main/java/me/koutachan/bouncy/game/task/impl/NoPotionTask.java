@@ -1,7 +1,7 @@
 package me.koutachan.bouncy.game.task.impl;
 
 import me.koutachan.bouncy.Bouncy;
-import me.koutachan.bouncy.ability.gamble.GambleDeBuff;
+import me.koutachan.bouncy.ability.impl.gamble.GambleDeBuff;
 import me.koutachan.bouncy.game.GamePlayer;
 import me.koutachan.bouncy.game.task.GameTask;
 import org.bukkit.Material;

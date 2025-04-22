@@ -1,4 +1,4 @@
-package me.koutachan.bouncy.ability.gamble;
+package me.koutachan.bouncy.ability.impl.gamble;
 
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.utils.AbilityUtils;
@@ -67,7 +67,7 @@ public enum GambleBuff implements GambleInfo {
     CHANGE_TO_YAMINABE(
             ItemCreator.of(Material.CAULDRON)
                     .setDisplayName("&a表")
-                    .addLore("&b役職が闇鍋になる （能力維持）")
+                    .addLore("&b役職が闇鍋になる（賭博の場合能力維持）")
                     .create(),
             player -> AbilityUtils.changeAbility(player, 29)
     ),

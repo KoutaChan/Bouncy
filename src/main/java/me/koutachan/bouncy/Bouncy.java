@@ -78,6 +78,7 @@ public final class Bouncy extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GambleListener(), this);
         getServer().getPluginManager().registerEvents(new TurretListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
+        getServer().getPluginManager().registerEvents(new AssassinListener(), this);
         CommandAPI.registerCommand(ArrowCommand.class);
         CommandAPI.registerCommand(PersistentCommand.class);
         CommandAPI.registerCommand(CustomSummonCommand.class);

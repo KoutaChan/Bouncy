@@ -1,9 +1,9 @@
 package me.koutachan.bouncy.events;
 
 import de.tr7zw.changeme.nbtapi.NBT;
-import me.koutachan.bouncy.ability.gamble.GambleBuff;
-import me.koutachan.bouncy.ability.gamble.GambleDeBuff;
-import me.koutachan.bouncy.ability.gamble.Gambler;
+import me.koutachan.bouncy.ability.impl.gamble.GambleBuff;
+import me.koutachan.bouncy.ability.impl.gamble.GambleDeBuff;
+import me.koutachan.bouncy.ability.impl.gamble.Gambler;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
 import org.bukkit.entity.Player;

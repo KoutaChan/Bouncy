@@ -1,4 +1,4 @@
-package me.koutachan.bouncy.ability.gamble;
+package me.koutachan.bouncy.ability.impl.gamble;
 
 import org.bukkit.inventory.ItemStack;
 

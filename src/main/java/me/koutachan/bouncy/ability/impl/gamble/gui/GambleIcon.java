@@ -1,7 +1,7 @@
-package me.koutachan.bouncy.ability.gamble.gui;
+package me.koutachan.bouncy.ability.impl.gamble.gui;
 
 import me.koutachan.bouncy.Bouncy;
-import me.koutachan.bouncy.ability.gamble.GambleInfo;
+import me.koutachan.bouncy.ability.impl.gamble.GambleInfo;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.utils.gui.button.impl.ClickButton;
 import org.bukkit.ChatColor;

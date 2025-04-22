@@ -37,12 +37,12 @@ public class ReturnAbility extends Ability implements AbilityDrop {
             gamePlayer.getPlayer().teleport(returnPos);
         } else if (gamePlayer.useAbility(getCt())) {
             returnPos = gamePlayer.getLocation();
-            tick = 0;
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (++tick > MAX_RETURN_TIME) {
                         returnPos = null;
+                        tick = 0;
                         cancel();
                     } else {
                         gamePlayer.getPlayer().spawnParticle(Particle.DUST_COLOR_TRANSITION, returnPos, 1, RETURN_DUST);

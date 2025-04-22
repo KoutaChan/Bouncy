@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class InvisibilityAbility extends Ability implements AbilityDrop, AbilityAttack {
     public static PotionEffect HIT_INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 3, 1, true, false);
-    public static PotionEffect INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 10, 1, true, false);
+    public static PotionEffect INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 9, 1, true, false);
 
     public final static int ID = 3;
 
@@ -52,7 +52,7 @@ public class InvisibilityAbility extends Ability implements AbilityDrop, Ability
 
     @Override
     public int getCt() {
-        return 600;
+        return 500;
     }
 
     @Override

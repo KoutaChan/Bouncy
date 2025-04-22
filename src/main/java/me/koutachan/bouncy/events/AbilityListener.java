@@ -1,9 +1,6 @@
 package me.koutachan.bouncy.events;
 
-import me.koutachan.bouncy.ability.AbilityAttack;
-import me.koutachan.bouncy.ability.AbilityDamage;
-import me.koutachan.bouncy.ability.AbilityDrop;
-import me.koutachan.bouncy.ability.AbilityShoot;
+import me.koutachan.bouncy.ability.*;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
 import org.bukkit.Material;
@@ -12,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -27,6 +25,19 @@ public class AbilityListener implements Listener {
             if (ability instanceof AbilityDrop abilityDrop) {
                 abilityDrop.onDrop();
             }
+        }
+    }
+
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerDeathEvent(PlayerDeathEvent event) {
+        if (event.getEntity().getLastDamageCause() == null || !(event.getEntity().getLastDamageCause().getDamageSource().getCausingEntity() instanceof Player player)) {
+            return;
+        }
+        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(player);
+        var ability = gamePlayer.getAbilityHandler().getAbility();
+        if (ability instanceof AbilityKill abilityKill) {
+            abilityKill.onKill(event.getEntity());
         }
     }
 

@@ -5,8 +5,8 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPi
 import com.google.common.cache.CacheBuilder;
 import me.koutachan.bouncy.ability.Ability;
 import me.koutachan.bouncy.ability.AbilityHandler;
-import me.koutachan.bouncy.ability.gamble.*;
-import me.koutachan.bouncy.ability.gamble.gui.GambleGui;
+import me.koutachan.bouncy.ability.impl.gamble.*;
+import me.koutachan.bouncy.ability.impl.gamble.gui.GambleGui;
 import me.koutachan.bouncy.ability.turret.Turret;
 import me.koutachan.bouncy.game.task.GameTaskHandler;
 import me.koutachan.bouncy.game.task.impl.HunchTask;
@@ -19,10 +19,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
@@ -123,6 +121,10 @@ public class GamePlayer {
 
     public boolean hasPotionEffect(PotionEffectType type) {
         return player.hasPotionEffect(type);
+    }
+
+    public void sendMessage(String message) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public World getWorld() {
