@@ -21,7 +21,7 @@ public class AssassinGui extends GuiBase<AssassinGui> {
         this.player = player;
         setLayout("""
                 _ _ _ _ _ _ _ _ _
-                _ x _ _ z _ _ y _
+                _ x _ _ y _ _ z _
                 _ _ _ _ _ _ _ _ _
                 """)
                 .set("_", createGlassButton())

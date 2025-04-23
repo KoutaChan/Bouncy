@@ -15,7 +15,7 @@ public class ItemCreator {
     private int amount = 1;
     private List<String> lore = new ArrayList<>();
     private Set<ItemFlag> itemFlags = new HashSet<>();
-    private Map<Enchantment, Integer> enchantments = new HashMap<>();
+    private final Map<Enchantment, Integer> enchantments = new HashMap<>();
     private String displayName;
     private boolean unbreakable;
     private boolean glow;

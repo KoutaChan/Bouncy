@@ -67,7 +67,7 @@ public class PacketHandler implements PacketListener {
     }
 
     private void handlePingPackets(PacketReceiveEvent event, GamePlayer gamePlayer) {
-        Runnable runnable = gamePlayer.getPingTask().remove(new WrapperPlayClientPong(event).getId());
+        Runnable runnable = gamePlayer.getPingQueue().remove(new WrapperPlayClientPong(event).getId());
         if (runnable != null) {
             runnable.run();
         }

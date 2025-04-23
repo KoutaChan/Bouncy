@@ -21,13 +21,13 @@ public class GameManager {
     public static void removeGamePlayer(Player player) {
         GamePlayer gamePlayer = CURRENT_GAME_PLAYER.remove(player.getUniqueId());
         if (gamePlayer != null) {
-            gamePlayer.cancel();
+            gamePlayer.dispose();
         }
     }
 
     public static void resetAll() {
         for (GamePlayer gamePlayer : CURRENT_GAME_PLAYER.values())  {
-            gamePlayer.cancel();
+            gamePlayer.dispose();
         }
         CURRENT_GAME_PLAYER.clear();
         for (Player player : Bukkit.getOnlinePlayers()) {

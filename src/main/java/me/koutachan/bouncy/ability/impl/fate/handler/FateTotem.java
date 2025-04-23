@@ -15,7 +15,7 @@ public class FateTotem implements FateHandler {
             gamePlayer.sendMessage("&a[能力発動] トーテムを獲得！");
             gamePlayer.getInventory().addItem(TOTEM_OF_UNDYING);
         } else {
-            gamePlayer.sendMessage("&4[能力発動失敗] なにもない..");
+            gamePlayer.sendMessage("&4[能力発動失敗] なにもなかった..");
         }
     }
 

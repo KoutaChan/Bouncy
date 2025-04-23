@@ -41,6 +41,7 @@ public class AbilityHandler extends GameTask {
             ABILITY_MAPPINGS.put(WallAbility.ID, WallAbility.class);
             ABILITY_MAPPINGS.put(FateAbility.ID, FateAbility.class);
             ABILITY_MAPPINGS.put(AssassinAbility.ID, AssassinAbility.class);
+            ABILITY_MAPPINGS.put(LightningStrikeAbility.ID, LightningStrikeAbility.class);
         } catch (Throwable throwable) {
             Bouncy.INSTANCE.getLogger().log(Level.WARNING, "Failed to register Ability", throwable);
         }

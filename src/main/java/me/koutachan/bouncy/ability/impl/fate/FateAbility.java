@@ -36,22 +36,30 @@ public class FateAbility extends Ability {
     @Override
     public void onTick() {
         if (gamePlayer.useAbility(getCt())) {
-            int random = Bouncy.SECURE_RANDOM.nextInt(totalWeight);
-            int cumulativeWeight = 0;
-
-            for (FateHandler handler : handlers) {
-                int weight = handler.getWeight();
-                cumulativeWeight += weight;
-
-                if (random < cumulativeWeight) {
-                    int relativeWeight = random - (cumulativeWeight - weight) + 1;
-
-                    triggerFate(handler, relativeWeight);
-                    break;
-                }
-            }
+            randomFate();
             gamePlayer.getWorld().playSound(gamePlayer.getPlayer(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
         }
+    }
+
+    public void randomFate() {
+        int random = Bouncy.SECURE_RANDOM.nextInt(totalWeight);
+        int cumulativeWeight = 0;
+
+        for (FateHandler handler : handlers) {
+            int weight = handler.getWeight();
+            cumulativeWeight += weight;
+
+            if (random < cumulativeWeight) {
+                int relativeWeight = random - (cumulativeWeight - weight) + 1;
+
+                triggerFate(handler, relativeWeight);
+                break;
+            }
+        }
+    }
+
+    public void triggerFate(FateHandler handler) {
+        triggerFate(handler, handler.getSuccessfulWeight() == handler.getWeight() ? handler.getSuccessfulWeight() : Bouncy.SECURE_RANDOM.nextInt(1, handler.getWeight()));
     }
 
     public void triggerFate(FateHandler handler, int relativeWeight) {
@@ -74,7 +82,7 @@ public class FateAbility extends Ability {
 
     @Override
     public String getActionBar() {
-        return "能力:運命 " + FormatUtils.formatTick(gamePlayer.getAbilityCt()) + "秒" + "（" + FormatUtils.formatTick(getCt()) + "秒で発動可能）";
+        return "能力:運命 " + FormatUtils.formatTick(gamePlayer.getAbilityCt()) + "秒" + "（" + FormatUtils.formatTick(getCt()) + "秒で自動発動）";
     }
 
     @Override

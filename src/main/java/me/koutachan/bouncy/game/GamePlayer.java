@@ -38,7 +38,7 @@ public class GamePlayer {
 
     private final List<Turret> turrets = new ArrayList<>();
 
-    private final ConcurrentMap<Integer, Runnable> pingTask =
+    private final ConcurrentMap<Integer, Runnable> pingQueue =
             CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES)
                     .<Integer, Runnable>build()
                     .asMap();
@@ -87,12 +87,12 @@ public class GamePlayer {
     }
 
     public void addPingTask(Runnable runnable) {
-        pingTask.put(++pingId, runnable);
+        pingQueue.put(++pingId, runnable);
         PacketEvents.getAPI().getPlayerManager().sendPacket(player, new WrapperPlayServerPing(pingId));
     }
 
-    public ConcurrentMap<Integer, Runnable> getPingTask() {
-        return pingTask;
+    public ConcurrentMap<Integer, Runnable> getPingQueue() {
+        return pingQueue;
     }
 
     public Player getPlayer() {
@@ -234,7 +234,7 @@ public class GamePlayer {
 
     public void pauseTasks() {
         taskHandler.pauseTasks();
-        pingTask.clear();
+        pingQueue.clear();
     }
 
     public void resumeTasks(Player player) {
@@ -242,12 +242,12 @@ public class GamePlayer {
         this.taskHandler.resumeTasks();
     }
 
-    public void cancel() {
+    public void dispose() {
         taskHandler.unregisterAll();
         for (Turret turret : new ArrayList<>(turrets)) {
             turret.remove();
         }
-        pingTask.clear();
+        pingQueue.clear();
     }
 
     public void runNoExpPoint() {
