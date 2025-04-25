@@ -18,4 +18,14 @@ public class FateAbilityChange implements FateHandler {
     public void onChosen(GamePlayer gamePlayer, int weight, boolean success) {
         gamePlayer.sendMessage("&e[!] >> 能力が変わる予感...");
     }
+
+    @Override
+    public int getSuccessfulWeight() {
+        return 2;
+    }
+
+    @Override
+    public int getWeight() {
+        return 4;
+    }
 }
