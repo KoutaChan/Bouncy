@@ -58,9 +58,9 @@ public class GameTaskHandler {
     }
 
     public void unregister(Class<? extends GameTask> clazz) {
-        GameTask task = tasks.get(clazz);
-        if (task != null && !task.safeCancel()) {
-            tasks.remove(clazz);
+        GameTask task = tasks.remove(clazz);
+        if (task != null) {
+            task.safeCancel();
         }
     }
 
