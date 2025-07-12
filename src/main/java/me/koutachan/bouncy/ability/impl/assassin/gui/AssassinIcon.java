@@ -35,7 +35,7 @@ public class AssassinIcon extends ClickButton<AssassinGui> {
 
     @Override
     public ItemStack getIcon() {
-        ItemStack item = buff.getDescription();
+        ItemStack item = buff.getDescription().clone();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "暗殺報酬");
         item.setItemMeta(meta);
