@@ -37,7 +37,7 @@ public class ArrowListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBorderHitEvent(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow arrow)) {
             return;
@@ -50,6 +50,7 @@ public class ArrowListener implements Listener {
                 arrow.setVelocity(velocity);
                 arrow.setRotation(location.getYaw(), location.getPitch());
             });
+            event.setCancelled(true);
         }
     }
 
@@ -61,7 +62,7 @@ public class ArrowListener implements Listener {
         return false;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBouncyHitEvent(ProjectileHitEvent event) {
         Integer bouncyCount = NBT.getPersistentData(event.getEntity(), nbt -> nbt.getInteger("BouncyCount"));
         if (event.getHitBlock() == null || bouncyCount <= 0) {
@@ -77,6 +78,7 @@ public class ArrowListener implements Listener {
             }
         }
         decrementBouncyCountAndUpdateEntity(event.getEntity(), bouncyCount - 1, adjustedVelocity);
+        event.setCancelled(true);
     }
 
     private Vector calculateReboundVelocity(Vector velocity, BlockFace hitBlockFace) {
