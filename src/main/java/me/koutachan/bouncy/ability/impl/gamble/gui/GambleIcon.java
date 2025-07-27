@@ -45,7 +45,7 @@ public class GambleIcon extends ClickButton<GambleGui> {
                         if (dividedTickExists > 1) {
                             player.playSound(player.getLocation(), Sound.BLOCK_BELL_USE, 1f, 0);
                             status = Status.DONE;
-                            GameManager.getGamePlayerOrCreate(player).addGambleBuff(gambleInfo = random());
+                            GameManager.getGamePlayer(player).addGambleBuff(gambleInfo = random());
                             var itemMeta = gambleInfo.getDescription().getItemMeta();
                             player.sendMessage(itemMeta.getDisplayName() + ": " + String.join("\n", itemMeta.getLore()));
                             cancel();

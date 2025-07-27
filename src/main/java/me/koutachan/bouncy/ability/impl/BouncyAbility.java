@@ -26,9 +26,8 @@ public class BouncyAbility extends Ability implements AbilityShoot {
         });
         event.getEntity().addScoreboardTag("bouncy");
     }
-
     
-    @Overrid
+    @Override
     public String getName() {
         return "跳弾";
     }

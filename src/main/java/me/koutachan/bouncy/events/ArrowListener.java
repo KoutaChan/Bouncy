@@ -3,12 +3,14 @@ package me.koutachan.bouncy.events;
 import de.tr7zw.changeme.nbtapi.NBT;
 import me.koutachan.bouncy.ArrowTracker;
 import me.koutachan.bouncy.Bouncy;
+import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.utils.DamageUtils;
 import me.koutachan.bouncy.utils.NMSUtils;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -37,7 +39,7 @@ public class ArrowListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBorderHitEvent(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow arrow)) {
             return;
@@ -50,7 +52,6 @@ public class ArrowListener implements Listener {
                 arrow.setVelocity(velocity);
                 arrow.setRotation(location.getYaw(), location.getPitch());
             });
-            event.setCancelled(true);
         }
     }
 
@@ -62,7 +63,7 @@ public class ArrowListener implements Listener {
         return false;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBouncyHitEvent(ProjectileHitEvent event) {
         Integer bouncyCount = NBT.getPersistentData(event.getEntity(), nbt -> nbt.getInteger("BouncyCount"));
         if (event.getHitBlock() == null || bouncyCount <= 0) {
@@ -78,7 +79,6 @@ public class ArrowListener implements Listener {
             }
         }
         decrementBouncyCountAndUpdateEntity(event.getEntity(), bouncyCount - 1, adjustedVelocity);
-        event.setCancelled(true);
     }
 
     private Vector calculateReboundVelocity(Vector velocity, BlockFace hitBlockFace) {

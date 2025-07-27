@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
@@ -458,20 +459,6 @@ public class ThroughWallArrowUtils {
             super.doPostHurtEffects(entityliving);
             MobEffectInstance mobEffect = new MobEffectInstance(MobEffects.GLOWING, this.duration, 0);
             entityliving.addEffect(mobEffect, this.getEffectSource(), EntityPotionEffectEvent.Cause.ARROW);
-        }
-
-        @Override
-        public void readAdditionalSaveData(CompoundTag nbttagcompound) {
-            super.readAdditionalSaveData(nbttagcompound);
-            if (nbttagcompound.contains("Duration")) {
-                this.duration = nbttagcompound.getInt("Duration");
-            }
-        }
-
-        @Override
-        public void addAdditionalSaveData(CompoundTag nbttagcompound) {
-            super.addAdditionalSaveData(nbttagcompound);
-            nbttagcompound.putInt("Duration", this.duration);
         }
     }
 }

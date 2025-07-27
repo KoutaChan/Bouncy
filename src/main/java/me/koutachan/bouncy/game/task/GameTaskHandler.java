@@ -48,13 +48,17 @@ public class GameTaskHandler {
     }
 
     public void pauseTasks() {
-        paused = true;
-        tasks.forEach((clazz, task) -> task.cancel());
+        if (!paused) {
+            paused = true;
+            tasks.forEach((clazz, task) -> task.cancel());
+        }
     }
 
     public void resumeTasks() {
-        paused = false;
-        tasks.forEach((clazz, task) -> task.start());
+        if (paused) {
+            paused = false;
+            tasks.forEach((clazz, task) -> task.start());
+        }
     }
 
     public void unregister(Class<? extends GameTask> clazz) {

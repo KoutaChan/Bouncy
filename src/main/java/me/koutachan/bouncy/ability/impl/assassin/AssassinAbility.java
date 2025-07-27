@@ -1,6 +1,6 @@
 package me.koutachan.bouncy.ability.impl.assassin;
 
-import fr.skytasul.glowingentities.GlowTeam;
+import fr.skytasul.glowingentities.GlowingTeam;
 import me.koutachan.bouncy.Bouncy;
 import me.koutachan.bouncy.ability.Ability;
 import me.koutachan.bouncy.ability.AbilityKill;
@@ -45,7 +45,7 @@ public class AssassinAbility extends Ability implements AbilityKill {
     public void handleTargetChange(Player target) {
         unsetGlow();
         try {
-            Bouncy.GLOW_API.setGlowing(target, gamePlayer.getPlayer(), new GlowTeam(ChatColor.RED, Team.OptionStatus.NEVER, Team.OptionStatus.NEVER));
+            Bouncy.GLOW_API.setGlowing(target, gamePlayer.getPlayer(), new GlowingTeam(ChatColor.RED, Team.OptionStatus.NEVER, Team.OptionStatus.NEVER));
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }

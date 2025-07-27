@@ -39,8 +39,7 @@ public class GambleListener implements Listener {
                 || !event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(Gambler.GAMBLE_NAMESPACED_KEY, PersistentDataType.BOOLEAN, false)) {
             return;
         }
-        GameManager.getGamePlayerOrCreate(event.getPlayer())
-                .tryUseGamble();
+        GameManager.getGamePlayer(event.getPlayer()).tryUseGamble();
     }
 
     @EventHandler

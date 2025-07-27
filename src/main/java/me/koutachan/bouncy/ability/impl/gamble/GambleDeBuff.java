@@ -21,7 +21,7 @@ public enum GambleDeBuff implements GambleInfo {
             .setDisplayName("&4裏")
             .addLore("&c一時的に回復ポーションが使えなくなる（60秒）")
             .create(),
-            player -> GameManager.getGamePlayerOrCreate(player).runPotionDeBuff()
+            player -> GameManager.getGamePlayer(player).runPotionDeBuff()
     ),
     DECREASE_HP(ItemCreator.of(Material.POISONOUS_POTATO)
             .setDisplayName("&4裏")
@@ -51,7 +51,7 @@ public enum GambleDeBuff implements GambleInfo {
             .setDisplayName("&4裏")
             .addLore("&c矢のチャージが溜まらなくなる（30秒）")
             .create(),
-            player -> GameManager.getGamePlayerOrCreate(player).runNoExpPoint()
+            player -> GameManager.getGamePlayer(player).runNoExpPoint()
     ),
     NO_JUMP(ItemCreator.of(Material.RABBIT_FOOT)
             .setDisplayName("&4裏")
@@ -98,7 +98,7 @@ public enum GambleDeBuff implements GambleInfo {
             .setDisplayName("&4裏")
             .addLore("&c10秒ごとに視点がランダムな方向に変わる")
             .create(),
-            player -> GameManager.getGamePlayerOrCreate(player).runRandomRotationDeBuff()
+            player -> GameManager.getGamePlayer(player).runRandomRotationDeBuff()
     ),
     NONE(ItemCreator.of(Material.NETHER_STAR)
             .setDisplayName("&4裏")

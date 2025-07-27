@@ -8,7 +8,7 @@ import dev.jorel.commandapi.annotations.arguments.AChatColorArgument;
 import dev.jorel.commandapi.annotations.arguments.AEntitySelectorArgument;
 import dev.jorel.commandapi.annotations.arguments.AMultiLiteralArgument;
 import dev.jorel.commandapi.wrappers.NativeProxyCommandSender;
-import fr.skytasul.glowingentities.GlowTeam;
+import fr.skytasul.glowingentities.GlowingTeam;
 import me.koutachan.bouncy.Bouncy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ public class GlowCommand {
     public static void glow(NativeProxyCommandSender sender, @AEntitySelectorArgument.ManyEntities Collection<Entity> entities, @AEntitySelectorArgument.OnePlayer Player player, @AChatColorArgument ChatColor color) {
         try {
             for (Entity entity : entities) {
-                Bouncy.GLOW_API.setGlowing(entity, player, new GlowTeam(color));
+                Bouncy.GLOW_API.setGlowing(entity, player, new GlowingTeam(color));
             }
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
@@ -36,7 +36,7 @@ public class GlowCommand {
     @Default
     public static void glow(NativeProxyCommandSender sender, @AEntitySelectorArgument.ManyEntities Collection<Entity> entities, @AEntitySelectorArgument.OnePlayer Player player, @AChatColorArgument ChatColor color, @AMultiLiteralArgument(value= {"ALWAYS", "NEVER", "FOR_OTHER_TEAMS", "FOR_OWN_TEAM"}) String nameTagVisibility, @AMultiLiteralArgument(value= {"ALWAYS", "NEVER", "FOR_OTHER_TEAMS", "FOR_OWN_TEAM"}) String collisionRule) {
         try {
-            GlowTeam glowTeam = new GlowTeam(color, Team.OptionStatus.valueOf(nameTagVisibility), Team.OptionStatus.valueOf(collisionRule));
+            GlowingTeam glowTeam = new GlowingTeam(color, Team.OptionStatus.valueOf(nameTagVisibility), Team.OptionStatus.valueOf(collisionRule));
             for (Entity entity : entities) {
                 Bouncy.GLOW_API.setGlowing(entity, player, glowTeam);
             }
@@ -52,7 +52,7 @@ public class GlowCommand {
         }
         try {
             for (Entity entity : entities) {
-                Bouncy.GLOW_API.setGlowing(entity, player, new GlowTeam(color));
+                Bouncy.GLOW_API.setGlowing(entity, player, new GlowingTeam(color));
             }
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);

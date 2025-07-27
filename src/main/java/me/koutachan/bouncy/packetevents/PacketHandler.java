@@ -34,7 +34,7 @@ public class PacketHandler implements PacketListener {
         if (event.getPlayer() == null)
             return;
 
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(event.getPlayer());
+        GamePlayer gamePlayer = GameManager.getGamePlayer(event.getUser().getUUID());
         if (gamePlayer == null) return;
 
         if (packetType == PacketType.Play.Server.TEAMS) {

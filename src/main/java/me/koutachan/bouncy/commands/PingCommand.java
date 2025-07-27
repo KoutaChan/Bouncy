@@ -14,7 +14,7 @@ public class PingCommand {
     @Default
     public static void ping(Player player) {
         long start = System.currentTimeMillis();
-        GameManager.getGamePlayerOrCreate(player).addPingTask(() -> {
+        GameManager.getGamePlayer(player).addPingTask(() -> {
             player.sendMessage(ChatColor.GREEN + "Pong! " + (System.currentTimeMillis() - start) + "ms");
         });
     }
@@ -22,7 +22,7 @@ public class PingCommand {
     @Default
     public static void ping(Player player, @AEntitySelectorArgument.OnePlayer Player target) {
         long start = System.currentTimeMillis();
-        GameManager.getGamePlayerOrCreate(target).addPingTask(() -> {
+        GameManager.getGamePlayer(target).addPingTask(() -> {
             player.sendMessage(ChatColor.GREEN + target.getName() + "'s Ping: " + (System.currentTimeMillis() - start) + "ms");
         });
     }
