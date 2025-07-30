@@ -16,11 +16,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.projectiles.ProjectileSource;
 
 @Command("arrow")
+@Permission("arrow")
 public class ArrowCommand {
     private static final String INVALID_SENDER_MESSAGE = ChatColor.RED + "エンティティーから実行する必要があります";
 
     @Default
-    @Permission("arrow.normal")
     public static void arrow(NativeProxyCommandSender sender) {
         if (!(sender.getCallee() instanceof Entity entity)) {
             sender.sendMessage(INVALID_SENDER_MESSAGE);
@@ -30,7 +30,6 @@ public class ArrowCommand {
     }
 
     @Default
-    @Permission("arrow.nbt")
     public static void arrow(NativeProxyCommandSender sender, @ANBTCompoundArgument NBTContainer container) {
         if (!(sender.getCallee() instanceof Entity entity)) {
             sender.sendMessage(INVALID_SENDER_MESSAGE);

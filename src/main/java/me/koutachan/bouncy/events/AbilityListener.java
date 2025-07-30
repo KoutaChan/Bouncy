@@ -87,7 +87,7 @@ public class AbilityListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
         GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
         if (gamePlayer != null) {
             gamePlayer.pauseTasks();

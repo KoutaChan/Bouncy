@@ -34,9 +34,8 @@ public class DamageUtils {
         if (attacker == victim)
             return true;
         String team = getTeam(attacker);
-        if (team == null || isPublicTeam(team)) {
+        if (team == null || isPublicTeam(team))
             return false;
-        }
         return team.equals(getTeam(victim));
     }
 

@@ -6,7 +6,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,7 +30,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
@@ -52,7 +50,7 @@ public class ThroughWallArrowUtils {
             AbstractArrow to = null;
             if (abstractArrow instanceof net.minecraft.world.entity.projectile.Arrow) {
                 to = new ThroughWallArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
-            } else if (abstractArrow instanceof SpectralArrow) {
+            } else if (abstractArrow instanceof net.minecraft.world.entity.projectile.SpectralArrow) {
                 to = new ThroughWallSpectralArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
             }
 
