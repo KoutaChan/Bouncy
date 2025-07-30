@@ -6,6 +6,7 @@ import me.koutachan.bouncy.ability.impl.gamble.GambleDeBuff;
 import me.koutachan.bouncy.ability.impl.gamble.Gambler;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
+import me.koutachan.bouncy.utils.DamageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,7 +77,7 @@ public class GambleListener implements Listener {
 
     @EventHandler
     public void onExtraDamage(ProjectileHitEvent event) {
-        if (!(event.getHitEntity() instanceof Player player)) {
+        if (!(event.getHitEntity() instanceof Player player) || DamageUtils.isSameTeam(event.getEntity(), player)) {
             return;
         }
         GamePlayer gamePlayer = GameManager.getGamePlayer(player);

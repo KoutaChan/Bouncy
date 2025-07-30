@@ -78,7 +78,7 @@
                         <path>
                             <groupId>dev.jorel</groupId>
                             <artifactId>commandapi-annotations</artifactId>
-                            <version>9.6.0</version>
+                            <version>10.1.2</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
