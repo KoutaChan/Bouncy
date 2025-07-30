@@ -78,7 +78,7 @@
                         <path>
                             <groupId>dev.jorel</groupId>
                             <artifactId>commandapi-annotations</artifactId>
-                            <version>9.6.0</version>
+                            <version>10.1.2</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -125,31 +125,31 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.7-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
-            <version>9.7.0</version>
+            <version>10.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
             <classifier>remapped-mojang</classifier>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-annotations</artifactId>
-            <version>9.7.0</version>
+            <version>10.1.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.14.1</version>
+            <version>2.15.1</version>
         </dependency>
         <dependency>
             <groupId>com.mojang</groupId>
@@ -166,12 +166,12 @@
         <dependency>
             <groupId>com.github.KoutaChan</groupId>
             <artifactId>GlowingEntities</artifactId>
-            <version>9f7f9c4811</version>
+            <version>eb866aa091</version>
         </dependency>
         <dependency>
             <groupId>com.github.retrooper</groupId>
             <artifactId>packetevents-spigot</artifactId>
-            <version>2.7.0</version>
+            <version>2.9.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

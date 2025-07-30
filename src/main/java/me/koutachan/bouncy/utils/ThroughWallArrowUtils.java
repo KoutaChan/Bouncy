@@ -6,7 +6,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -51,7 +50,7 @@ public class ThroughWallArrowUtils {
             AbstractArrow to = null;
             if (abstractArrow instanceof net.minecraft.world.entity.projectile.Arrow) {
                 to = new ThroughWallArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
-            } else if (abstractArrow instanceof SpectralArrow) {
+            } else if (abstractArrow instanceof net.minecraft.world.entity.projectile.SpectralArrow) {
                 to = new ThroughWallSpectralArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
             }
 
@@ -458,20 +457,6 @@ public class ThroughWallArrowUtils {
             super.doPostHurtEffects(entityliving);
             MobEffectInstance mobEffect = new MobEffectInstance(MobEffects.GLOWING, this.duration, 0);
             entityliving.addEffect(mobEffect, this.getEffectSource(), EntityPotionEffectEvent.Cause.ARROW);
-        }
-
-        @Override
-        public void readAdditionalSaveData(CompoundTag nbttagcompound) {
-            super.readAdditionalSaveData(nbttagcompound);
-            if (nbttagcompound.contains("Duration")) {
-                this.duration = nbttagcompound.getInt("Duration");
-            }
-        }
-
-        @Override
-        public void addAdditionalSaveData(CompoundTag nbttagcompound) {
-            super.addAdditionalSaveData(nbttagcompound);
-            nbttagcompound.putInt("Duration", this.duration);
         }
     }
 }

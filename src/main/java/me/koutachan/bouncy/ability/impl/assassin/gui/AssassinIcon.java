@@ -28,7 +28,7 @@ public class AssassinIcon extends ClickButton<AssassinGui> {
     }
 
     public void addBuff() {
-        GameManager.getGamePlayerOrCreate(gui.getPlayer()).addGambleBuff(buff);
+        GameManager.getGamePlayer(gui.getPlayer()).addGambleBuff(buff);
         gui.getPlayer().sendMessage(String.join("\n", buff.getDescription().getItemMeta().getLore()) + "を選択しました");
         gui.selected = true;
     }

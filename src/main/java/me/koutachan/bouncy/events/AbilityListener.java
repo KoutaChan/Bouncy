@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class AbilityListener implements Listener {
     @EventHandler
     public void onBowDropEvent(PlayerDropItemEvent event) {
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(event.getPlayer());
+        GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
         if (event.getItemDrop().getItemStack().getType() == Material.BOW) {
             var ability = gamePlayer.getAbilityHandler().getAbility();
             if (ability instanceof AbilityDrop abilityDrop) {
@@ -28,13 +28,12 @@ public class AbilityListener implements Listener {
         }
     }
 
-
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
         if (event.getEntity().getLastDamageCause() == null || !(event.getEntity().getLastDamageCause().getDamageSource().getCausingEntity() instanceof Player player)) {
             return;
         }
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(player);
+        GamePlayer gamePlayer = GameManager.getGamePlayer(player);
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityKill abilityKill) {
             abilityKill.onKill(event.getEntity());
@@ -46,7 +45,7 @@ public class AbilityListener implements Listener {
         if (!(event.getHitEntity() instanceof Player victim) || !(event.getEntity().getShooter() instanceof Player player)) {
             return;
         }
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(player);
+        GamePlayer gamePlayer = GameManager.getGamePlayer(player);
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityAttack abilityAttack) {
             abilityAttack.onAttack(victim);
@@ -58,7 +57,7 @@ public class AbilityListener implements Listener {
         if (!(event.getEntity().getShooter() instanceof Player player)) {
             return;
         }
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(player);
+        GamePlayer gamePlayer = GameManager.getGamePlayer(player);
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityShoot abilityShoot) {
             abilityShoot.onShoot(event);
@@ -70,7 +69,7 @@ public class AbilityListener implements Listener {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
-        GamePlayer gamePlayer = GameManager.getGamePlayerOrCreate(player);
+        GamePlayer gamePlayer = GameManager.getGamePlayer(player);
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityDamage abilityDamage) {
             abilityDamage.onDamage(event);
@@ -82,12 +81,13 @@ public class AbilityListener implements Listener {
         GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
         if (gamePlayer != null) {
             gamePlayer.resumeTasks(event.getPlayer());
+        } else {
+            GameManager.createGamePlayer(event.getPlayer());
         }
     }
 
-
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
         GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
         if (gamePlayer != null) {
             gamePlayer.pauseTasks();

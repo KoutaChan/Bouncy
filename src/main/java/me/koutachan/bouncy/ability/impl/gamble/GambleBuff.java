@@ -99,7 +99,7 @@ public enum GambleBuff implements GambleInfo {
                     .setDisplayName("&a表")
                     .addLore("&e最寄りの敵の位置がわかるようになる")
                     .create(),
-            player -> GameManager.getGamePlayerOrCreate(player).runHunch()
+            player -> GameManager.getGamePlayer(player).runHunch()
     );
 
     public final static GambleBuff[] VALUES = values();

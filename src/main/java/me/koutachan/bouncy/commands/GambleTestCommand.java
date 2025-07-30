@@ -34,7 +34,7 @@ public class GambleTestCommand {
         if (!(sender.getCallee() instanceof Player player)) {
             return;
         }
-        GameManager.getGamePlayerOrCreate(player).addGambleBuff(GambleBuff.HUNCH_ENEMY);
+        GameManager.getGamePlayer(player).addGambleBuff(GambleBuff.HUNCH_ENEMY);
     }
 
     @Subcommand("assassin")
@@ -50,7 +50,7 @@ public class GambleTestCommand {
         if (!(sender.getCallee() instanceof Player player)) {
             return;
         }
-        GameManager.getGamePlayerOrCreate(player).addGambleBuff(GambleDeBuff.RANDOM_ABILITY);
+        GameManager.getGamePlayer(player).addGambleBuff(GambleDeBuff.RANDOM_ABILITY);
     }
 
     @Subcommand("turret")
@@ -58,7 +58,7 @@ public class GambleTestCommand {
         if (!(sender.getCallee() instanceof Player player)) {
             return;
         }
-        GameManager.getGamePlayerOrCreate(player).addTurret(player.getLocation());
+        GameManager.getGamePlayer(player).addTurret(player.getLocation());
     }
 
     @Subcommand("random-rotation")
@@ -66,6 +66,6 @@ public class GambleTestCommand {
         if (!(sender.getCallee() instanceof Player player)) {
             return;
         }
-        GameManager.getGamePlayerOrCreate(player).addGambleBuff(GambleDeBuff.RANDOM_ROTATION);
+        GameManager.getGamePlayer(player).addGambleBuff(GambleDeBuff.RANDOM_ROTATION);
     }
 }
