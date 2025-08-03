@@ -1,6 +1,7 @@
 package me.koutachan.bouncy.utils;
 
 import me.koutachan.bouncy.Bouncy;
+import me.koutachan.bouncy.ability.impl.special_thanks.TrueArrowAbility;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -39,48 +40,44 @@ import java.util.Iterator;
 import java.util.logging.Level;
 
 public class ThroughWallArrowUtils {
-    public static boolean failed;
-
-    public static boolean trySpawnThroughWallArrow(org.bukkit.entity.AbstractArrow bukkitAbstractArrow) {
-        if (failed)
-            return false;
-
+    public static org.bukkit.entity.AbstractArrow trySpawnThroughWallArrow(org.bukkit.entity.AbstractArrow bukkitAbstractArrow, ThroughMode throughMode) {
         try {
-            AbstractArrow abstractArrow = (AbstractArrow) NMSUtils.getHandle(bukkitAbstractArrow);
-            AbstractArrow to = null;
-            if (abstractArrow instanceof net.minecraft.world.entity.projectile.Arrow) {
-                to = new ThroughWallArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
-            } else if (abstractArrow instanceof net.minecraft.world.entity.projectile.SpectralArrow) {
-                to = new ThroughWallSpectralArrow(abstractArrow.level(), abstractArrow.getX(), abstractArrow.getY(), abstractArrow.getZ(), abstractArrow.pickupItemStack, abstractArrow.firedFromWeapon);
+            AbstractArrow sourceArrow = (AbstractArrow) NMSUtils.getHandle(bukkitAbstractArrow);
+
+            AbstractArrow throughWallArrow = sourceArrow instanceof net.minecraft.world.entity.projectile.Arrow
+                    ? new ThroughWallArrow(sourceArrow.level(), sourceArrow.getX(), sourceArrow.getY(), sourceArrow.getZ(),
+                    sourceArrow.pickupItemStack, sourceArrow.firedFromWeapon, throughMode)
+                    : sourceArrow instanceof net.minecraft.world.entity.projectile.SpectralArrow
+                    ? new ThroughWallSpectralArrow(sourceArrow.level(), sourceArrow.getX(), sourceArrow.getY(), sourceArrow.getZ(),
+                    sourceArrow.pickupItemStack, sourceArrow.firedFromWeapon, throughMode)
+                    : null;
+
+            if (throughWallArrow == null) {
+                return null;
             }
 
-            if (to != null) {
-                to.setDeltaMovement(abstractArrow.getDeltaMovement());
-                to.setXRot(abstractArrow.getXRot());
-                to.setYRot(abstractArrow.getYRot());
-                to.setYHeadRot(abstractArrow.getYHeadRot());
-                abstractArrow.level().addFreshEntity(to);
-                to.setOwner(abstractArrow.getOwner());
-            }
-            return true;
+            throughWallArrow.setDeltaMovement(sourceArrow.getDeltaMovement());
+            throughWallArrow.setXRot(sourceArrow.getXRot());
+            throughWallArrow.setYRot(sourceArrow.getYRot());
+            throughWallArrow.setYHeadRot(sourceArrow.getYHeadRot());
+
+            sourceArrow.level().addFreshEntity(throughWallArrow);
+            throughWallArrow.setOwner(sourceArrow.getOwner());
+
+            return (org.bukkit.entity.AbstractArrow) throughWallArrow.getBukkitEntity();
         } catch (Throwable throwable) {
             Bouncy.INSTANCE.getLogger().log(Level.WARNING, "Failed to spawn Through Wall Arrow!", throwable);
-            failed = true;
-            return false;
+            return null;
         }
     }
-
     public static class ThroughWallArrow extends net.minecraft.world.entity.projectile.Arrow {
         private static final EntityDataAccessor<Integer> ID_EFFECT_COLOR;
+        private final ThroughMode throughMode;
 
-        public ThroughWallArrow(net.minecraft.world.level.Level world, double d0, double d1, double d2, ItemStack itemstack, @Nullable ItemStack itemstack1) {
-            super(world, d0, d1, d2, itemstack, itemstack1);
+        public ThroughWallArrow(net.minecraft.world.level.Level world, double x, double y, double z, ItemStack itemstack, @Nullable ItemStack fireItemStack, ThroughMode throughMode) {
+            super(world, x, y, z, itemstack, fireItemStack);
             this.updateColor();
-        }
-
-        public ThroughWallArrow(net.minecraft.world.level.Level world, LivingEntity entityliving, ItemStack itemstack, @Nullable ItemStack itemstack1) {
-            super(world, entityliving, itemstack, itemstack1);
-            this.updateColor();
+            this.throughMode = throughMode;
         }
 
         @Override
@@ -125,7 +122,7 @@ public class ThroughWallArrowUtils {
             BlockPos blockPosition = this.blockPosition();
             BlockState blockState = this.level().getBlockState(blockPosition);
 
-            if (!blockState.isAir() && !isGlass(blockState) && flag) {
+            if (!blockState.isAir() && !throughMode.test(this, blockState) && flag) {
                 VoxelShape voxelshape = blockState.getCollisionShape(this.level(), blockPosition);
                 if (!voxelshape.isEmpty()) {
                     Vec3 vec3d1 = this.position();
@@ -190,7 +187,7 @@ public class ThroughWallArrowUtils {
 
             super.baseTick();
             if (this.isInGround() && this.inGroundTime != 0 && !this.getPotionContents().equals(PotionContents.EMPTY) && this.inGroundTime >= 600) {
-                this.level().broadcastEntityEvent(this, (byte)0);
+                this.level().broadcastEntityEvent(this, (byte) 0);
                 this.setPickupItemStack(new ItemStack(Items.ARROW));
             }
         }
@@ -207,19 +204,14 @@ public class ThroughWallArrowUtils {
             this.setDeltaMovement(deltaMovement.scale(f));
         }
 
-        public boolean isGlass(BlockState blockState) {
-            Block block = blockState.getBlock();
-            return block instanceof StainedGlassPaneBlock || block instanceof StainedGlassBlock || block == Blocks.GLASS || block == Blocks.GLASS_PANE;
-        }
-
         private void stepMoveAndHit(Vec3 deltaMovement) {
             while (true) {
                 if (this.isAlive()) {
                     Vec3 pos = this.position();
                     Vec3 newPos = pos.add(deltaMovement);
-                    BlockHitResult movingObject = this.level().clip(new ClipContext(pos,  newPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                    BlockHitResult movingObject = this.level().clip(new ClipContext(pos, newPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 
-                    boolean canPass = movingObject.getType() != HitResult.Type.MISS && !isGlass(level().getBlockState(movingObject.getBlockPos()));
+                    boolean canPass = movingObject.getType() != HitResult.Type.MISS && !throughMode.test(this, level().getBlockState(movingObject.getBlockPos()));
                     if (canPass) {
                         newPos = movingObject.getLocation();
                     }
@@ -253,7 +245,7 @@ public class ThroughWallArrowUtils {
         private void makeParticle(int i) {
             int j = this.getColor();
             if (j != -1 && i > 0) {
-                for(int k = 0; k < i; ++k) {
+                for (int k = 0; k < i; ++k) {
                     this.level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, j), this.getRandomX(0.5), this.getRandomY(), this.getRandomZ(0.5), 0.0, 0.0, 0.0);
                 }
             }
@@ -294,11 +286,11 @@ public class ThroughWallArrowUtils {
             if (b0 == 0) {
                 int i = this.getColor();
                 if (i != -1) {
-                    float f = (float)(i >> 16 & 255) / 255.0F;
-                    float f1 = (float)(i >> 8 & 255) / 255.0F;
-                    float f2 = (float)(i & 255) / 255.0F;
+                    float f = (float) (i >> 16 & 255) / 255.0F;
+                    float f1 = (float) (i >> 8 & 255) / 255.0F;
+                    float f2 = (float) (i & 255) / 255.0F;
 
-                    for(int j = 0; j < 20; ++j) {
+                    for (int j = 0; j < 20; ++j) {
                         this.level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, f, f1, f2), this.getRandomX(0.5), this.getRandomY(), this.getRandomZ(0.5), 0.0, 0.0, 0.0);
                     }
                 }
@@ -314,13 +306,11 @@ public class ThroughWallArrowUtils {
 
     public static class ThroughWallSpectralArrow extends SpectralArrow {
         public int duration = 200;
+        private final ThroughMode throughMode;
 
-        public ThroughWallSpectralArrow(net.minecraft.world.level.Level world, LivingEntity entityliving, ItemStack itemstack, @Nullable ItemStack itemstack1) {
-            super(world, entityliving, itemstack, itemstack1);
-        }
-
-        public ThroughWallSpectralArrow(net.minecraft.world.level.Level world, double d0, double d1, double d2, ItemStack itemstack, @Nullable ItemStack itemstack1) {
-            super(world, d0, d1, d2, itemstack, itemstack1);
+        public ThroughWallSpectralArrow(net.minecraft.world.level.Level world, double x, double y, double z, ItemStack itemstack, @Nullable ItemStack fireItemStack, ThroughMode throughMode) {
+            super(world, x, y, z, itemstack, fireItemStack);
+            this.throughMode = throughMode;
         }
 
         @Override
@@ -331,7 +321,7 @@ public class ThroughWallArrowUtils {
             BlockPos blockPosition = this.blockPosition();
             BlockState blockState = this.level().getBlockState(blockPosition);
 
-           if (!blockState.isAir() && !isGlass(blockState) && flag) {
+            if (!blockState.isAir() && !throughMode.test(this, blockState) && flag) {
                 VoxelShape voxelshape = blockState.getCollisionShape(this.level(), blockPosition);
                 if (!voxelshape.isEmpty()) {
                     Vec3 vec3d1 = this.position();
@@ -409,19 +399,14 @@ public class ThroughWallArrowUtils {
             this.setDeltaMovement(deltaMovement.scale(f));
         }
 
-        public boolean isGlass(BlockState blockState) {
-            Block block = blockState.getBlock();
-            return block instanceof StainedGlassPaneBlock || block instanceof StainedGlassBlock || block == Blocks.GLASS || block == Blocks.GLASS_PANE;
-        }
-
         private void stepMoveAndHit(Vec3 deltaMovement) {
             while (true) {
                 if (this.isAlive()) {
                     Vec3 pos = this.position();
                     Vec3 newPos = pos.add(deltaMovement);
-                    BlockHitResult movingObject = this.level().clip(new ClipContext(pos,  newPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                    BlockHitResult movingObject = this.level().clip(new ClipContext(pos, newPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 
-                    boolean canPass = movingObject.getType() != HitResult.Type.MISS && !isGlass(level().getBlockState(movingObject.getBlockPos()));
+                    boolean canPass = movingObject.getType() != HitResult.Type.MISS && !throughMode.test(this, level().getBlockState(movingObject.getBlockPos()));
                     if (canPass) {
                         newPos = movingObject.getLocation();
                     }
@@ -458,5 +443,31 @@ public class ThroughWallArrowUtils {
             MobEffectInstance mobEffect = new MobEffectInstance(MobEffects.GLOWING, this.duration, 0);
             entityliving.addEffect(mobEffect, this.getEffectSource(), EntityPotionEffectEvent.Cause.ARROW);
         }
+    }
+
+    public enum ThroughMode {
+        ALWAYS((arrow, blockState) -> true),
+        GLASS((arrow, blockState) -> {
+            Block block = blockState.getBlock();
+            return block instanceof StainedGlassPaneBlock || block instanceof StainedGlassBlock || block == Blocks.GLASS || block == Blocks.GLASS_PANE;
+        }),
+        TRUE_ARROW((arrow, blockState) -> {
+            TrueArrowAbility.ArrowData arrowData = TrueArrowAbility.getArrowData(arrow.getUUID());
+            return arrowData != null && arrowData.onTick();
+        });
+
+        ThroughMode(ThroughPredicate blockStatePredicate) {
+            this.blockStatePredicate = blockStatePredicate;
+        }
+
+        private final ThroughPredicate blockStatePredicate;
+
+        public boolean test(AbstractArrow arrow, BlockState blockState) {
+            return blockStatePredicate.test(arrow, blockState);
+        }
+    }
+
+    public interface ThroughPredicate {
+        boolean test(AbstractArrow arrow, BlockState blockState);
     }
 }
