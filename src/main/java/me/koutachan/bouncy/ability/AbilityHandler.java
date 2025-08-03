@@ -4,6 +4,8 @@ import me.koutachan.bouncy.Bouncy;
 import me.koutachan.bouncy.ability.impl.*;
 import me.koutachan.bouncy.ability.impl.assassin.AssassinAbility;
 import me.koutachan.bouncy.ability.impl.fate.FateAbility;
+import me.koutachan.bouncy.ability.impl.special_thanks.TrueArrowAbility;
+import me.koutachan.bouncy.ability.impl.special_thanks.unknown.UnknownAbility;
 import me.koutachan.bouncy.game.GamePlayer;
 import me.koutachan.bouncy.game.task.GameTask;
 import net.md_5.bungee.api.ChatMessageType;
@@ -42,6 +44,10 @@ public class AbilityHandler extends GameTask {
             ABILITY_MAPPINGS.put(FateAbility.ID, FateAbility.class);
             ABILITY_MAPPINGS.put(AssassinAbility.ID, AssassinAbility.class);
             ABILITY_MAPPINGS.put(LightningStrikeAbility.ID, LightningStrikeAbility.class);
+
+            /* SPECIAL THANKS */
+            ABILITY_MAPPINGS.put(UnknownAbility.ID, UnknownAbility.class);
+            ABILITY_MAPPINGS.put(TrueArrowAbility.ID, TrueArrowAbility.class);
         } catch (Throwable throwable) {
             Bouncy.INSTANCE.getLogger().log(Level.WARNING, "Failed to register Ability", throwable);
         }

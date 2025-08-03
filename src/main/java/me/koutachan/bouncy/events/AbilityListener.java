@@ -13,6 +13,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -49,6 +50,17 @@ public class AbilityListener implements Listener {
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityAttack abilityAttack) {
             abilityAttack.onAttack(victim);
+        }
+    }
+
+    @EventHandler
+    public void onPotionDrinkEvent(PlayerItemConsumeEvent event) {
+        if (event.getItem().getType() == Material.POTION) {
+            GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
+            var ability = gamePlayer.getAbilityHandler().getAbility();
+            if (ability instanceof AbilityPotion abilityPotion) {
+                abilityPotion.onPotion(event);
+            }
         }
     }
 

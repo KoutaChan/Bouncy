@@ -44,8 +44,8 @@ public class WallAbility extends Ability implements AbilityShoot, AbilityDrop {
     @Override
     public void onShoot(ProjectileLaunchEvent event) {
         if (event.getEntity() instanceof AbstractArrow abstractArrow) {
-            boolean success = ThroughWallArrowUtils.trySpawnThroughWallArrow(abstractArrow);
-            event.setCancelled(success);
+            AbstractArrow arrow = ThroughWallArrowUtils.trySpawnThroughWallArrow(abstractArrow, ThroughWallArrowUtils.ThroughMode.GLASS);
+            event.setCancelled(arrow != null);
         }
     }
 

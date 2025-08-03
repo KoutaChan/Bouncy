@@ -7,6 +7,7 @@ import me.koutachan.bouncy.ability.impl.gamble.Gambler;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
 import me.koutachan.bouncy.utils.DamageUtils;
+import me.koutachan.bouncy.utils.JumpUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,8 +21,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class GambleListener implements Listener {
     @EventHandler
@@ -38,9 +37,9 @@ public class GambleListener implements Listener {
             return;
 
         double deltaY = to.getY() - from.getY();
-        double jumpPower = getJumpPower(player);
+        double jumpPower = JumpUtils.getJumpPower(player);
 
-        if (isJump(deltaY, jumpPower)) {
+        if (JumpUtils.isJump(deltaY, jumpPower)) {
             event.setCancelled(true);
         }
     }
@@ -110,18 +109,5 @@ public class GambleListener implements Listener {
         if (gamePlayer != null) {
             gamePlayer.clearGamble();
         }
-    }
-
-    private static boolean isJump(double deltaY, double jumpPower) {
-        return Math.abs(deltaY - jumpPower) < 0.05;
-    }
-
-    private static double getJumpPower(Player player) {
-        double base = 0.42;
-        PotionEffect jumpBoost = player.getPotionEffect(PotionEffectType.JUMP_BOOST);
-        if (jumpBoost != null) {
-            base += (jumpBoost.getAmplifier() + 1) * 0.1;
-        }
-        return base;
     }
 }
