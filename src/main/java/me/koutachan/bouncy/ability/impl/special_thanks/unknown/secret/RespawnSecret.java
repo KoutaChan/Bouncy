@@ -5,7 +5,6 @@ import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerMeta;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerType;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.meta.DamageMeta;
 import me.koutachan.bouncy.game.GamePlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
 import org.bukkit.attribute.Attribute;

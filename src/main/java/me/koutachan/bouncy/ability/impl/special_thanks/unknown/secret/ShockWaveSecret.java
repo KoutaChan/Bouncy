@@ -10,6 +10,7 @@ import me.koutachan.bouncy.game.GamePlayer;
 import me.koutachan.bouncy.utils.DamageUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -86,15 +87,17 @@ public class ShockWaveSecret extends SkillSecret {
             }
             createParticleRing(center, currentRadius);
             for (Entity entity : center.getWorld().getNearbyEntities(center, currentRadius + 1, 3, currentRadius + 1)) {
-                if (DamageUtils.isSameTeam(gamePlayer.getPlayer(), entity) || attacked.contains(entity)) {
+                if (DamageUtils.isSameTeam(gamePlayer.getPlayer(), entity) || attacked.contains(entity))
                     continue;
-                }
+                if (!(entity instanceof Player player) || player.getGameMode() == GameMode.SPECTATOR)
+                    continue;
+
                 final double distance = entity.getLocation().distance(center);
                 if (distance <= currentRadius + 0.5 && distance >= currentRadius - 0.5) {
                     DamageUtils.damage(gamePlayer.getPlayer(), entity, 1);
 
                     Vector direction = entity.getLocation().subtract(center).toVector();
-                    entity.setVelocity(direction.setY(0.3).normalize());
+                    entity.setVelocity(direction.setY(0.3).normalize().multiply(.5));
                     attacked.add(entity);
 
                     entity.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR, entity.getLocation().add(0, 1, 0), 5, 0.3, 0.5, 0.3, 0);
