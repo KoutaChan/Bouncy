@@ -23,20 +23,20 @@ public class ShockWaveSecret extends SkillSecret {
 
     private int ticks;
 
-    public ShockWaveSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public ShockWaveSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override
     public void onActivated(TriggerMeta meta) {
-        if (type == TriggerType.TICK) {
+        if (activeType == TriggerType.TICK) {
             if (ticks++ >= INTERVAL) {
                 ticks = 0;
             } else {
                 return;
             }
         }
-        Location pos = switch (type) {
+        Location pos = switch (activeType) {
             case HIT -> ((HitMeta) meta).victim().getLocation();
             case KILL -> ((KillMeta) meta).victim().getLocation();
             default -> gamePlayer.getLocation();
@@ -51,7 +51,7 @@ public class ShockWaveSecret extends SkillSecret {
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、ショックウェーブを発生させる";
             case KILL -> "敵を殺したとき、ショックウェーブを発生させる";
             case TICK -> (INTERVAL / 20) + "秒ごとに、ショックウェーブを発生させる";
@@ -87,10 +87,8 @@ public class ShockWaveSecret extends SkillSecret {
             }
             createParticleRing(center, currentRadius);
             for (Entity entity : center.getWorld().getNearbyEntities(center, currentRadius + 1, 3, currentRadius + 1)) {
-                if (DamageUtils.isSameTeam(gamePlayer.getPlayer(), entity) || attacked.contains(entity))
-                    continue;
-                if (!(entity instanceof Player player) || player.getGameMode() == GameMode.SPECTATOR)
-                    continue;
+                if (DamageUtils.isSameTeam(gamePlayer.getPlayer(), entity) || attacked.contains(entity)) continue;
+                if (!(entity instanceof Player player) || player.getGameMode() == GameMode.SPECTATOR) continue;
 
                 final double distance = entity.getLocation().distance(center);
                 if (distance <= currentRadius + 0.5 && distance >= currentRadius - 0.5) {
@@ -125,6 +123,4 @@ public class ShockWaveSecret extends SkillSecret {
             }
         }
     }
-
-
 }

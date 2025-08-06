@@ -16,13 +16,13 @@ public class GlowSecret extends SkillSecret {
     private int ticks;
     private boolean glow;
 
-    public GlowSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public GlowSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override
     public void onActivated(TriggerMeta meta) {
-        switch (type) {
+        switch (activeType) {
             case TICK -> {
                 if (gamePlayer.getPlayer().isSneaking()) {
                     ticks = 1;
@@ -47,12 +47,10 @@ public class GlowSecret extends SkillSecret {
 
     public void handleGlow() {
         Player player = gamePlayer.getPlayer();
-        if (player.getGameMode() == GameMode.SPECTATOR)
-            return;
+        if (player.getGameMode() == GameMode.SPECTATOR) return;
         glow = true;
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.equals(player))
-                continue;
+            if (viewer.equals(player)) continue;
             ChatColor glowColor = DamageUtils.isSameTeam(viewer, player)
                     ? ChatColor.GREEN
                     : ChatColor.RED;
@@ -65,8 +63,7 @@ public class GlowSecret extends SkillSecret {
     }
 
     public void unsetGlow() {
-        if (!glow)
-            return;
+        if (!glow) return;
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             try {
                 Bouncy.GLOW_API.unsetGlowing(viewer, gamePlayer.getPlayer());
@@ -74,11 +71,12 @@ public class GlowSecret extends SkillSecret {
                 throw new RuntimeException("Failed to unset glowing effect", e);
             }
         }
+        glow = false;
     }
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、一時的に発光させる";
             case KILL -> "敵を殺したとき、一時的に発光させる";
             case TICK -> "スニーク時、発光させる";

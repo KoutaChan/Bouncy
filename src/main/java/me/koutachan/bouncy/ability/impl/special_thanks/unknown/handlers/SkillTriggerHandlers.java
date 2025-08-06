@@ -1,7 +1,6 @@
 package me.koutachan.bouncy.ability.impl.special_thanks.unknown.handlers;
 
 import me.koutachan.bouncy.Bouncy;
-import me.koutachan.bouncy.ability.impl.special_thanks.TrueArrowAbility;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.secret.*;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.SkillSecret;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerMeta;
@@ -37,7 +36,7 @@ public class SkillTriggerHandlers {
 
     public void onTrigger(TriggerType type, TriggerMeta meta) {
         for (SkillSecret secret : secrets) {
-            if (secret.getType() == type) {
+            if (secret.getActiveType() == type) {
                 secret.onActivated(meta);
             }
             secret.onGlobal(type, meta);

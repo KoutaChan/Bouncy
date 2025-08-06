@@ -12,5 +12,5 @@ public enum TriggerType {
     JUMP_5,
     JUMP_10;
 
-    public static TriggerType[] VALUES = values();
+    public final static TriggerType[] VALUES = values();
 }

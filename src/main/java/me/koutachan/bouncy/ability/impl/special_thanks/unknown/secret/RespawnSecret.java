@@ -11,8 +11,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class RespawnSecret extends SkillSecret {
-    public RespawnSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public RespawnSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
         this.active = true;
     }
 

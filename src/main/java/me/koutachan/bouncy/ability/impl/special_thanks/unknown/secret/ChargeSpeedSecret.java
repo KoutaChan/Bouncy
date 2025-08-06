@@ -6,13 +6,13 @@ import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerType;
 import me.koutachan.bouncy.game.GamePlayer;
 
 public class ChargeSpeedSecret extends SkillSecret {
-    public ChargeSpeedSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public ChargeSpeedSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override
     public void onActivated(TriggerMeta meta) {
-        float progressLevel = switch (type) {
+        float progressLevel = switch (activeType) {
             case TICK -> 0.005f;
             case HIT -> 0.3f;
             case KILL, DRINK_POTION, DROP_2, DROP_1 -> 1f;
@@ -28,7 +28,7 @@ public class ChargeSpeedSecret extends SkillSecret {
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、矢のチャージを加速させる";
             case KILL -> "敵を殺したとき、矢のチャージを加速させる";
             case TICK -> "常に、矢のチャージを加速させる";

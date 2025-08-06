@@ -41,7 +41,7 @@ public class AbilityListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onEntityShootEvent(ProjectileHitEvent event) {
         if (!(event.getHitEntity() instanceof Player victim) || !(event.getEntity().getShooter() instanceof Player player)) {
             return;

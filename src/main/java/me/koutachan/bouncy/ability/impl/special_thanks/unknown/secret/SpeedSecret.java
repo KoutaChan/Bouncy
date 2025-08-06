@@ -8,13 +8,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class SpeedSecret extends SkillSecret {
-    public SpeedSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public SpeedSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override
     public void onActivated(TriggerMeta meta) {
-        switch (type) {
+        switch (activeType) {
             case HIT, DAMAGE, JUMP_5, DROP_1, SHOOT -> gamePlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 2, true, false));
             case KILL, JUMP_10, DROP_2, DRINK_POTION -> gamePlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 20, 2, true, false));
             case TICK -> gamePlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1, 1, true, false));
@@ -28,7 +28,7 @@ public class SpeedSecret extends SkillSecret {
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、移動速度が一時的に上がる";
             case KILL -> "敵を殺したとき、移動速度が一時的に上がる";
             case TICK -> "常に、移動速度が上がる";

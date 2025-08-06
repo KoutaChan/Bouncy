@@ -7,8 +7,8 @@ import me.koutachan.bouncy.game.GamePlayer;
 import org.bukkit.attribute.Attribute;
 
 public class HealSecret extends SkillSecret {
-    public HealSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public HealSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override

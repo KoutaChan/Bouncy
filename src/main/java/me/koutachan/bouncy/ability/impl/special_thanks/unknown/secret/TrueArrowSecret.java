@@ -30,7 +30,7 @@ public class TrueArrowSecret extends SkillSecret {
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、次の矢を貫通させる";
             case KILL -> "敵を殺したとき、次の矢を貫通させる";
             case TICK -> "常に、矢が貫通する";

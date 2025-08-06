@@ -4,13 +4,13 @@ import me.koutachan.bouncy.game.GamePlayer;
 
 public abstract class SkillSecret {
     protected final GamePlayer gamePlayer;
-    protected final TriggerType type;
+    protected final TriggerType activeType;
 
     protected boolean active;
 
-    public SkillSecret(GamePlayer gamePlayer, TriggerType type) {
+    public SkillSecret(GamePlayer gamePlayer, TriggerType activeType) {
         this.gamePlayer = gamePlayer;
-        this.type = type;
+        this.activeType = activeType;
     }
 
     public void onActivated(TriggerMeta meta) {
@@ -25,8 +25,8 @@ public abstract class SkillSecret {
         return gamePlayer;
     }
 
-    public TriggerType getType() {
-        return type;
+    public TriggerType getActiveType() {
+        return activeType;
     }
 
     public boolean isActive() {

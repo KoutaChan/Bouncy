@@ -10,8 +10,8 @@ import org.bukkit.potion.PotionEffectType;
 public class ProtectionSecret extends SkillSecret {
     public final static PotionEffect RESISTANCE = new PotionEffect(PotionEffectType.RESISTANCE, 1, 1, true, false);
 
-    public ProtectionSecret(GamePlayer gamePlayer, TriggerType type) {
-        super(gamePlayer, type);
+    public ProtectionSecret(GamePlayer gamePlayer, TriggerType activeType) {
+        super(gamePlayer, activeType);
     }
 
     @Override
@@ -22,13 +22,17 @@ public class ProtectionSecret extends SkillSecret {
                     gamePlayer.addPotionEffect(RESISTANCE);
                 }
             }
-            case DAMAGE -> this.active = false;
+            case DAMAGE -> {
+                if (this.activeType != TriggerType.DAMAGE) {
+                    this.active = false;
+                }
+            }
         }
     }
 
     @Override
     public String asMessage() {
-        return switch (type) {
+        return switch (activeType) {
             case HIT -> "ヒット時、次のダメージを半減させる";
             case KILL -> "敵を殺したとき、次のダメージを半減させる";
             case TICK -> "常に、ダメージを半減する";
