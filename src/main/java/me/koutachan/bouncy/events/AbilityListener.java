@@ -4,6 +4,8 @@ import me.koutachan.bouncy.ability.*;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
 import org.bukkit.Material;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -42,18 +44,6 @@ public class AbilityListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityShootEvent(ProjectileHitEvent event) {
-        if (!(event.getHitEntity() instanceof Player victim) || !(event.getEntity().getShooter() instanceof Player player)) {
-            return;
-        }
-        GamePlayer gamePlayer = GameManager.getGamePlayer(player);
-        var ability = gamePlayer.getAbilityHandler().getAbility();
-        if (ability instanceof AbilityAttack abilityAttack) {
-            abilityAttack.onAttack(victim);
-        }
-    }
-
-    @EventHandler
     public void onPotionDrinkEvent(PlayerItemConsumeEvent event) {
         if (event.getItem().getType() == Material.POTION) {
             GamePlayer gamePlayer = GameManager.getGamePlayer(event.getPlayer());
@@ -73,6 +63,21 @@ public class AbilityListener implements Listener {
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityShoot abilityShoot) {
             abilityShoot.onShoot(event);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onArrowHitEvent(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player victim))
+            return;
+        DamageSource damageSource = event.getDamageSource();
+        if (!(damageSource.getDirectEntity() instanceof AbstractArrow abstractArrow))
+            return;
+        if (!(abstractArrow.getShooter() instanceof Player shooter))
+            return;
+        GamePlayer gamePlayer = GameManager.getGamePlayer(shooter);
+        if (gamePlayer.getAbilityHandler().getAbility() instanceof AbilityAttack abilityAttack) {
+            abilityAttack.onAttack(victim);
         }
     }
 
