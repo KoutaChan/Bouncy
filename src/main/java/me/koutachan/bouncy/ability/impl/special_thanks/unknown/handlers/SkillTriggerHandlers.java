@@ -6,6 +6,7 @@ import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.SkillSecret;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerMeta;
 import me.koutachan.bouncy.ability.impl.special_thanks.unknown.type.TriggerType;
 import me.koutachan.bouncy.game.GamePlayer;
+import org.bukkit.GameMode;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class SkillTriggerHandlers {
         add(ShockWaveSecret.class);
         add(SpeedSecret.class);
         add(TrueArrowSecret.class);
+        add(RandomArrowSecret.class);
     }};
 
     private final GamePlayer gamePlayer;
@@ -35,12 +37,17 @@ public class SkillTriggerHandlers {
     }
 
     public void onTrigger(TriggerType type, TriggerMeta meta) {
+        if (!isActive()) return;
         for (SkillSecret secret : secrets) {
             if (secret.getActiveType() == type) {
                 secret.onActivated(meta);
             }
             secret.onGlobal(type, meta);
         }
+    }
+
+    public boolean isActive() {
+        return gamePlayer.getPlayer().getGameMode() != GameMode.SPECTATOR;
     }
 
     public void newSecret() {

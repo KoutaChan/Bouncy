@@ -30,6 +30,8 @@ public class UnknownAbility extends Ability implements AbilityDrop, AbilityKill,
     private final SkillTriggerHandlers handlers;
     private int dropStock;
     private int jumpStock;
+
+    private boolean lastOnGround;
     private Double lastY;
 
     public UnknownAbility(GamePlayer gamePlayer) {
@@ -49,14 +51,17 @@ public class UnknownAbility extends Ability implements AbilityDrop, AbilityKill,
         if (lastY != null) {
             double deltaY = y - lastY;
             double jumpPower = JumpUtils.getJumpPower(gamePlayer.getPlayer());
-            if (JumpUtils.isJump(deltaY, jumpPower)) {
+            if (lastOnGround && JumpUtils.isJump(deltaY, jumpPower)) {
                 jumpStock++;
-                if (jumpStock % 5 == 0)
+                if (jumpStock % 5 == 0) {
                     handlers.onTrigger(TriggerType.JUMP_5);
-                if (jumpStock % 10 == 0)
-                    handlers.onTrigger(TriggerType.JUMP_10);
+                    if (jumpStock % 10 == 0) {
+                        handlers.onTrigger(TriggerType.JUMP_10);
+                    }
+                }
             }
         }
+        lastOnGround = gamePlayer.getPlayer().isOnGround();
         lastY = y;
 
         if (gamePlayer.getAbilityCt() == Integer.MAX_VALUE) {
@@ -66,7 +71,6 @@ public class UnknownAbility extends Ability implements AbilityDrop, AbilityKill,
             }
             gamePlayer.sendMessage(ChatColor.GREEN + "= = This is Secret Message = =");
         }
-
         gamePlayer.limitCt(getCt());
     }
 
