@@ -43,6 +43,7 @@ public class AbilityHandler extends GameTask {
             ABILITY_MAPPINGS.put(WallAbility.ID, WallAbility.class);
             ABILITY_MAPPINGS.put(FateAbility.ID, FateAbility.class);
             ABILITY_MAPPINGS.put(AssassinAbility.ID, AssassinAbility.class);
+            /*ABILITY_MAPPINGS.put(GreedAbility.ID, GreedAbility.class);*/
             ABILITY_MAPPINGS.put(LightningStrikeAbility.ID, LightningStrikeAbility.class);
 
             /* SPECIAL THANKS */
@@ -65,10 +66,12 @@ public class AbilityHandler extends GameTask {
         var ability = getAbility();
         if (ability != null) {
             ability.onTick();
-            gamePlayer.getPlayer().spigot().sendMessage(
-                    ChatMessageType.ACTION_BAR,
-                    new TextComponent(ability.getActionBar())
-            );
+            if (ability.getActionBar() != null) {
+                gamePlayer.getPlayer().spigot().sendMessage(
+                        ChatMessageType.ACTION_BAR,
+                        new TextComponent(ability.getActionBar())
+                );
+            }
         }
 
         if (lastAbility != null && lastAbility != ability) {

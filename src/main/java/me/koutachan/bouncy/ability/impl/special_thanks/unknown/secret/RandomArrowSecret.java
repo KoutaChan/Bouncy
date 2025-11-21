@@ -26,7 +26,7 @@ public class RandomArrowSecret extends SkillSecret {
         ProjectileLaunchEvent event = ((ShootMeta) meta).event();
         if (event.isCancelled()) return;
 
-        ArrowType arrowType = getRandomArrowType();
+        ArrowType arrowType = ArrowType.getRandomArrowType();
         switch (arrowType) {
             case BOUNCE -> {
                 int bouncyCount = gamePlayer.getPlayer().isSneaking() ? 8 : 4;
@@ -42,19 +42,6 @@ public class RandomArrowSecret extends SkillSecret {
                 nbt.setBoolean("Explosive", true);
             });
         }
-    }
-
-    private ArrowType getRandomArrowType() {
-        double random = Math.random() * ArrowType.totalWeight;
-        double currentWeight = 0;
-
-        for (ArrowType type : ArrowType.VALUES) {
-            currentWeight += type.getWeight();
-            if (random <= currentWeight) {
-                return type;
-            }
-        }
-        return ArrowType.NONE;
     }
 
     private enum ArrowType {
@@ -80,6 +67,19 @@ public class RandomArrowSecret extends SkillSecret {
 
         public double getWeight() {
             return weight;
+        }
+
+        public static ArrowType getRandomArrowType() {
+            double random = Math.random() * totalWeight;
+            double currentWeight = 0;
+
+            for (ArrowType type : VALUES) {
+                currentWeight += type.getWeight();
+                if (random <= currentWeight) {
+                    return type;
+                }
+            }
+            return NONE;
         }
     }
 

@@ -23,7 +23,6 @@ public class CustomDamageCommand {
     private static final String INVALID_SENDER_MESSAGE = ChatColor.RED + "生きているエンティティーから実行する必要があります";
     private static final String INVALID_ATTACK_ENTITY_MESSAGE = ChatColor.RED + "不明な攻撃者です";
 
-
     @Default
     public static void damage(NativeProxyCommandSender sender, @AEntitySelectorArgument.ManyEntities Collection<Entity> entities, @ADoubleArgument double damage) {
         if (!(sender.getCallee() instanceof LivingEntity attackingEntity)) {

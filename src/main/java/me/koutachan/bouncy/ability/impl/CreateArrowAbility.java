@@ -5,9 +5,12 @@ import me.koutachan.bouncy.ability.AbilityAttack;
 import me.koutachan.bouncy.ability.AbilityDrop;
 import me.koutachan.bouncy.game.GamePlayer;
 import me.koutachan.bouncy.utils.EntityUtils;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 public class CreateArrowAbility extends Ability implements AbilityDrop, AbilityAttack {
@@ -33,7 +36,7 @@ public class CreateArrowAbility extends Ability implements AbilityDrop, AbilityA
             gamePlayer.getWorld().spawnParticle(Particle.EFFECT, gamePlayer.getLocation().add(0, 1, 0), 12, 0.3, 0.9, 0.3, 0);
             gamePlayer.playSoundPublic(gamePlayer.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
             gamePlayer.getPlayer().damage(1);
-            gamePlayer.getPlayer().setLevel(gamePlayer.getPlayer().getLevel() + 1);
+            gamePlayer.getInventory().addItem(new ItemStack(Material.SPECTRAL_ARROW));
         }
     }
 

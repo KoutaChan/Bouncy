@@ -26,6 +26,7 @@ import dev.jorel.commandapi.wrappers.NativeProxyCommandSender;
 import fr.skytasul.glowingentities.GlowingEntities;
 import me.koutachan.bouncy.commands.*;
 import me.koutachan.bouncy.events.*;
+import me.koutachan.bouncy.game.boarder.WorldBorderHandler;
 import me.koutachan.bouncy.packetevents.PacketHandler;
 import me.koutachan.bouncy.utils.DamageUtils;
 import me.koutachan.bouncy.utils.brigadier.BrigadierUtils;
@@ -49,6 +50,7 @@ public final class Bouncy extends JavaPlugin {
     public static SecureRandom SECURE_RANDOM;
     public static GlowingEntities GLOW_API;
 
+    public WorldBorderHandler worldBorderHandler;
     public Pathfinder pathfinder;
 
     private PacketListenerCommon handler;
@@ -90,6 +92,8 @@ public final class Bouncy extends JavaPlugin {
         CommandAPI.registerCommand(ResetDataCommand.class);
         CommandAPI.registerCommand(GlowCommand.class);
         CommandAPI.registerCommand(PingCommand.class);
+        CommandAPI.registerCommand(ReversiCommand.class);
+        CommandAPI.registerCommand(BorderCommand.class);
 
         registerProjectileRelation();
         registerShooterRelation();
@@ -120,6 +124,7 @@ public final class Bouncy extends JavaPlugin {
                 .build();
 
         pathfinder = factory.createPathfinder(configuration, initializer);
+        worldBorderHandler = new WorldBorderHandler();
 
         GLOW_API = new GlowingEntities(this);
     }

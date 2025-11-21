@@ -5,6 +5,7 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPi
 import com.google.common.cache.CacheBuilder;
 import me.koutachan.bouncy.ability.Ability;
 import me.koutachan.bouncy.ability.AbilityHandler;
+import me.koutachan.bouncy.ability.impl.GreedAbility;
 import me.koutachan.bouncy.ability.impl.gamble.*;
 import me.koutachan.bouncy.ability.impl.gamble.gui.GambleGui;
 import me.koutachan.bouncy.ability.turret.Turret;
@@ -13,9 +14,12 @@ import me.koutachan.bouncy.game.task.impl.HunchTask;
 import me.koutachan.bouncy.game.task.impl.NoExpTask;
 import me.koutachan.bouncy.game.task.impl.NoPotionTask;
 import me.koutachan.bouncy.game.task.impl.RandomRotationTask;
+import me.koutachan.bouncy.utils.AbilityUtils;
+import net.minecraft.world.item.ItemUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -82,6 +86,10 @@ public class GamePlayer {
         gambleInfo.getGambleConsumer().onGamble(player);
     }
 
+    public boolean isAlive() {
+        return player.getGameMode() == GameMode.ADVENTURE;
+    }
+
     public Map<String, String> getTeamTracker() {
         return teamTracker;
     }
@@ -123,8 +131,20 @@ public class GamePlayer {
         return player.hasPotionEffect(type);
     }
 
+    public void addHealPotion() {
+        ItemStack res = AbilityUtils.getBestHealPotion(this);
+        if (getAbilityId() == GreedAbility.ID) {
+            res.setAmount(2);
+        }
+        getInventory().addItem(res);
+    }
+
     public void sendMessage(String message) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
+    public UUID getUUID() {
+        return player.getUniqueId();
     }
 
     public World getWorld() {

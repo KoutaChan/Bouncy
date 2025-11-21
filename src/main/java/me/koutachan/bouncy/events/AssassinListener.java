@@ -4,6 +4,7 @@ import me.koutachan.bouncy.ability.impl.assassin.gui.AssassinGui;
 import me.koutachan.bouncy.ability.impl.assassin.AssassinItems;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataType;
 

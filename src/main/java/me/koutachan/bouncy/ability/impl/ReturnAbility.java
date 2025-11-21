@@ -69,7 +69,7 @@ public class ReturnAbility extends Ability implements AbilityDrop {
 
     @Override
     public int getCt() {
-        return 600;
+        return 500;
     }
 
     @Override

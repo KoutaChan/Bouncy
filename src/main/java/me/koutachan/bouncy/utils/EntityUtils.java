@@ -35,6 +35,12 @@ public class EntityUtils {
         livingEntity.setHealth(Math.min(max, livingEntity.getHealth() + healValue));
     }
 
+    public static long getAlivePlayers() {
+        return Bukkit.getOnlinePlayers().stream()
+                .filter(o -> o.getGameMode() == GameMode.ADVENTURE)
+                .count();
+    }
+
     @Nullable
     public static Player getNearestEnemy(Player player) {
         return Bukkit.getOnlinePlayers().stream()

@@ -47,6 +47,10 @@ public class GameTaskHandler {
         return register(clazz, true);
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
     public void pauseTasks() {
         if (!paused) {
             paused = true;

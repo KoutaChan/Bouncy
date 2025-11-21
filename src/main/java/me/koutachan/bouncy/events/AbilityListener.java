@@ -1,8 +1,13 @@
 package me.koutachan.bouncy.events;
 
+import me.koutachan.bouncy.Bouncy;
 import me.koutachan.bouncy.ability.*;
 import me.koutachan.bouncy.game.GameManager;
 import me.koutachan.bouncy.game.GamePlayer;
+import me.koutachan.bouncy.game.boarder.CarePackage;
+import me.koutachan.bouncy.game.boarder.WorldBorder;
+import me.koutachan.bouncy.game.boarder.WorldBorderHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.AbstractArrow;
@@ -13,10 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 public class AbilityListener implements Listener {
     @EventHandler
@@ -89,6 +91,17 @@ public class AbilityListener implements Listener {
         var ability = gamePlayer.getAbilityHandler().getAbility();
         if (ability instanceof AbilityDamage abilityDamage) {
             abilityDamage.onDamage(event);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractEntityEvent(PlayerInteractAtEntityEvent event) {
+        WorldBorder border = Bouncy.INSTANCE.worldBorderHandler.getBorder();
+        if (border != null) {
+            CarePackage.CarePackageData carePackageData = border.getCarePackage().getCarePackage(event.getRightClicked().getUniqueId());
+            if (carePackageData != null) {
+                carePackageData.collect(GameManager.getGamePlayer(event.getPlayer()));
+            }
         }
     }
 

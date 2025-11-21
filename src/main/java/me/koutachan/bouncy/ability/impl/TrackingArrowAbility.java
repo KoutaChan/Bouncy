@@ -169,12 +169,11 @@ public class TrackingArrowAbility extends Ability implements AbilityDrop {
             if (++tick >= REMOVE_TICK || arrow.isDead() || target.getGameMode() != GameMode.ADVENTURE || arrow.isOnGround() || !target.getWorld().equals(arrow.getWorld())) {
                 cancel();
             } else {
-                if (arrow.getLocation().distanceSquared(target.getLocation()) <= ARROW_TARGET_WARNING) {
-                    if (0 > --warningTick) {
-                        target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 0.5f);
-                        target.sendMessage(ChatColor.RED + "[警告] 追尾されています！");
-                        warningTick = WARNING_TICK;
-                    }
+                if (0 > --warningTick) {
+                    double distance = arrow.getLocation().distance(target.getLocation());
+                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 0.5f);
+                    target.sendMessage(ChatColor.RED + "[警告] 追尾されています！ (" + String.format("%.2f", distance) + "m)");
+                    warningTick = WARNING_TICK;
                 }
                 Location arrowPos = arrow.getLocation();
                 Location targetPos = target.getEyeLocation();
